@@ -15,6 +15,7 @@
 		this.options = {
 			element : "input[list]", 		
 			data: "",
+			maxChoices : 7
 		};	
 	
 		if (options) {
@@ -30,6 +31,7 @@
 	Autocomplete.prototype.init = function() {
 		var dataArr = this.options['data'];
 		var obj = document.querySelectorAll(this.options['element']);
+		var maxChoices = this.options['maxChoices'];
 		
 		each(obj, function(v, i) {
 			//wrap input and create DOM for data display
@@ -56,17 +58,19 @@
 				var frag = document.createDocumentFragment();
 				
 				// data found, insert into DOM
-				foundArr.forEach(function(entry) {				
+				//.forEach(function(entry) {
+				for (var i=0, length=foundArr.length; i<length; i++) {				
 					var li= document.createElement("li"),
-						textNode = document.createTextNode(entry);
+						textNode = document.createTextNode(foundArr[i]);
 						
 					addEvent(li, 'mousedown', function(event){
-						v.value = entry;
+						v.value = foundArr[i];
 					});
 					
 					li.appendChild(textNode);				
-					frag.appendChild(li);		
-				});
+					frag.appendChild(li);
+					if (i+1 == maxChoices) break;
+				};
 				results.innerHTML = "";//reset
 				results.appendChild(frag);
 				ac.removeClass('hidden');
