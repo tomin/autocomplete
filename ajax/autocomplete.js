@@ -14,8 +14,11 @@
 		 */	
 		this.options = {
 			element : "input[list]", 		
-			data: "",
-			maxChoices : 7
+			data: [],
+			maxChoices: 7,
+			highlight: true,
+			caseSensitive: false,
+			wrapClassName: "acwrap"
 		};	
 	
 		if (options) {
@@ -29,86 +32,124 @@
 	};	
 	
 	Autocomplete.prototype.init = function() {
-		var dataArr = this.options['data'];
-		var obj = document.querySelectorAll(this.options['element']);
-		var maxChoices = this.options['maxChoices'];
-		
-		each(obj, function(v, i) {
+		var current = this;
+		var dataArr = current.options['data'];
+		var inputs = document.querySelectorAll(this.options['element']);
+
+		each(inputs, function(input, i) {
 			//wrap input and create DOM for data display
 			var wrapper= document.createElement("span");
-			wrapper.className = "acwrap";
-			wrapper.wrap(v);
-			var ac= document.createElement("div");
-			ac.className = "ac hidden";
+			wrapper.className = current.options['wrapClassName'];
+			wrap(wrapper, input);
+			
 			var results= document.createElement("ul");
-			results.className = "results";			
-			ac.appendChild(results);
-			wrapper.appendChild(ac);
-					
-			addEvent(v, 'keyup', function(event){
-				var event = event || window.event,
-					keycode = event.charCode || event.keyCode,
-					text = v.value,
-					foundArr = dataArr.getHavingDataArray(text);
-				
-				if (text.trim().length == 0 || foundArr.length == 0) {
-					ac.addClass('hidden')
-					return;
-				}
-				var frag = document.createDocumentFragment();
-				
-				// data found, insert into DOM
-				//.forEach(function(entry) {
-				for (var i=0, length=foundArr.length; i<length; i++) {				
-					var li= document.createElement("li"),
-						textNode = document.createTextNode(foundArr[i]);
-						
-					addEvent(li, 'mousedown', function(event){
-						v.value = foundArr[i];
-					});
-					
-					li.appendChild(textNode);				
-					frag.appendChild(li);
-					if (i+1 == maxChoices) break;
-				};
-				results.innerHTML = "";//reset
-				results.appendChild(frag);
-				ac.removeClass('hidden');
-			});		
+			results.className = "results hidden";
+			wrapper.appendChild(results);
+			
+			current.register.call(current, input, results);
+		});	
+	}
+	
+	/* 
+	 * Register/Bind events
+	 * 
+	 * @param input   DOM the input DOM that has autocomplete	  	 
+	 * @param results DOM the DOM for autocomplete results
+	 */
+	Autocomplete.prototype.register = function(input, results) {
+		var current = this;
 
-			addEvent(v, 'blur', function(event){
-				ac.addClass('hidden');
-			});	
+		addEvent(input, 'keyup', function(event){
+			var event = event || window.event,
+				keycode = event.charCode || event.keyCode,
+				text = input.value,
+				foundArr = current.getHavingDataArray(current.options['data'], text);
+			
+			// ignore if the following keys are pressed: [shift] [ctrl] [alt] [capslock]
+			if (keycode > 8 && keycode < 32) {
+				return;
+			}
+			
+			if (text.trim().length == 0 || foundArr.length == 0) {
+				results.addClass('hidden')
+				return;
+			}
+			var frag = document.createDocumentFragment();
+			
+			// data found, insert into DOM			
+			for (var i=0, length=foundArr.length; i<length; i++) {				
+				var li= document.createElement("li"),						
+					textNode = document.createTextNode(foundArr[i]);
+		
+				addEvent(li, 'mousedown', function(event){
+					input.value = foundArr[i];
+					//input.value = x;
+				});
+				
+				li.appendChild(textNode);				
+				frag.appendChild(li);
+				if (i+1 == current.options['maxChoices']) break;
+			};
+			results.innerHTML = "";//reset
+			results.appendChild(frag);
+			results.removeClass('hidden');
+			
+			current.highlight(text, results, foundArr);
 		});
 		
-	}
-
-	function each(obj, fn) {
-		if (obj.length) for (var i = 0, ol = obj.length, v = obj[0]; i < ol && fn(v, i) !== false; v = obj[++i]);
-		else for (var p in obj) if (fn(obj[p], p) === false) break;
-	};
+		addEvent(input, 'blur', function(event){
+			results.addClass('hidden');
+		});
+	}	
 	
-	Array.prototype.getHavingDataArray = function(str) {
+	/* 
+	 * highlight exact match
+	 * 
+	 * @param text 	   string target replace string
+	 * @param results  DOM    target DOM to be replaced
+	 * @param foundArr array  found array containing the keyword
+	 */
+	Autocomplete.prototype.highlight = function(text, results, foundArr) {		
+		if (this.options['highlight'] === false) {
+			return false;
+		}
+
+		if (this.options['caseSensitive']) {
+			var re = new RegExp(text);
+			for (var i=0, length=foundArr.length; i<length; i++) {
+				var newVal = foundArr[i].replace(re, "<span class='found'>" + text + "</span>");				
+				results.innerHTML = results.innerHTML.replace(foundArr[i], newVal);
+			}	
+			
+		} else {
+			var re = new RegExp(text, "i");
+	
+			for (var i=0, length=foundArr.length; i<length; i++) {
+				var matched = foundArr[i].match(re);
+				var newVal = foundArr[i].replace(re, "<span class='found'>" + matched[0] + "</span>");				
+				results.innerHTML = results.innerHTML.replace(foundArr[i], newVal);
+			}
+		}
+	};	
+	
+	Autocomplete.prototype.getHavingDataArray = function(array, inputStr) {
 		var newarr = [],
-			i = this.length;
+			i = array.length;
+
 		while (i--) {
-			if (this[i].toLowerCase().indexOf(str.toLowerCase()) != -1) {
-				newarr.push(this[i]);
+			var sourceStr = array[i];
+			if (this.options['caseSensitive'] === false) {
+				sourceStr = array[i].toLowerCase();
+				inputStr = inputStr.toLowerCase();
+			}			
+			
+			if (sourceStr.indexOf(inputStr) != -1) {
+				newarr.push(array[i]);
 			}
 		}
 		return newarr.sort();
 	}
-
-	var addEvent = (document.addEventListener) ? 
-		function(elem, type, listener) { elem.addEventListener(type, listener, false); } : 
-		function(elem, type, listener) { elem.attachEvent("on" + type, listener); };
-	
-	if(!String.prototype.trim){//avoid IE9 existing trim  
-		String.prototype.trim = function(){  
-			return this.replace(/^\s+|\s+$/g,'');  
-		};  
-	}	
-	  	
+			  	
 	// expose
 	window.Autocomplete = Autocomplete;	
 	

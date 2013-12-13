@@ -1,0 +1,29 @@
+.acwrap{
+position: relative;
+}
+.acwrap .results{
+list-style-type : none;
+margin:0;
+padding:0;
+position:absolute; 
+left:0px; 
+min-width: 18em; 
+border:1px solid orange;
+opacity:1;
+
+z-index:999;
+top: 1.4em;
+}
+.acwrap .results li{
+display:block;
+}
+.acwrap .results li:hover, .acwrap .results li:active{
+background: lightblue;
+}
+.acwrap .results .found{
+color:red;
+font-weight: strong;
+}
+.acwrap .hidden{
+display:none;
+}

@@ -3,64 +3,16 @@
 <head>
 <title>Autocomplete with Ajax sample</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style type="text/css">
-body{
-margin: 0;
-min-height:550px;
-}
-#keyword{
-margin:2em 0;
-width: 22em;
-}
-#container{
-margin: 0 auto;
-padding: 0;
-width: 750px;
-}
-.center{
-text-align: center;
-}
-.found{
-color:red;
-font-weight: strong;
-}
-
-.acwrap{
-position: relative;
-}
-.ac{ 
-position:absolute; 
-left:0px; 
-min-width: 18em; 
-border:1px solid orange;
-opacity:1;
-padding:4px;
-z-index:999;
-top: 1.4em;
-}
-.results{
-list-style-type : none;
-margin:0;
-padding:0;
-}
-.results li{
-display:block;
-}
-.results li:hover{
-background: lightblue;
-}
-.hidden{
-display:none;
-}
-</style>
+<link rel="stylesheet" href="demo.css">
+<link rel="stylesheet" href="css/template.css">
 </head>
 <body>
     <div id="container">
         <div id="query">          
-		<form name="f" method="post" action="">
-		  PTT Board Search: 			
-			<input id="keyword" name="keyword" type="text" value="" placeholder="Key a board name" autofocus="autofocus" />
-			<input id="submit" type="submit" value="Get" />
+			<form name="f" method="post" action="">
+			PTT Board Search: 			
+				<input id="keyword" name="keyword" type="text" value="" placeholder="Key a board name" autofocus="autofocus" />
+				<input id="submit" type="submit" value="Get" />
 			</form>
         </div>
     </div>
@@ -69,6 +21,8 @@ display:none;
 <script type="text/javascript" src="lib.js"></script>
 <script type="text/javascript" src="autocomplete.js"></script>
 <script type="text/javascript">
+//combined version
+/*
 new Ajax({
 	"url": "./hotboard.json",
 	"type": "get",
@@ -80,6 +34,16 @@ new Ajax({
 		});		
 	}
 });
+*/
+
+//standalone version
+
+var data = ["Actuary", "Ajax", "Aquarium", "ask", "BabyMother", "Beauty", "BeautyBody", "BeautySalon", "BigBanciao", "biker", "BLEACH", "Brit-pop", "BuyTogether", "C_Chat", "car", "cat", "CFantasy", "Chiayi", "ChungLi", "ComeHere", "cookclub", "creditcard", "CVS", "DC", "DIABLO", "DSLR", "EatToDie", "Elephants", "ELSWORD", "e-shopping", "Examination", "EZsoft", "Facebook", "FITNESS", "Food", "GetMarry", "Gossiping", "graduate", "hairdo", "HardwareSale", "Headphone", "HelpBuy", "home-sale", "HomeTeach", "Hsinchu", "Huaoptionen", "iPhone", "iPod", "Japan_Travel", "Japandrama", "job", "joke", "Kaohsiung", "KoreaDrama", "Lakers", "Lifeismoney", "Lions", "Little-Games", "LoL", "lyrics", "Mabinogi", "MakeUp", "MapleStory", "marvel", "Mix_Match", "MJ", "MLB", "MobileComm", "mobilesales", "movie", "NARUTO", "NBA", "NBA_Film", "nb-shopping", "NTU", "NTUcourse", "NY-Yankees", "ONE_PIECE", "Option", "part-time", "PC_Shopping", "PlayStation", "PokeMon", "RO", "Salary", "Scorpio", "SD-GundamOL", "SET", "ShuangHe", "SMSoptionfe", "SNSD", "Soft_Job", "Songs", "SportLottery", "StarCraft", "stationery", "Stock", "studyabroad", "StupidClown", "SuperJunior", "TaichungBun", "Tainan", "TaiwanDrama", "Tech_Job", "TKU_Talk", "TY_Research", "Wanted", "WarCraft", "Web_Design", "WOW", "Zastrology"];
+new Autocomplete({
+	"element": "input[type=text]",
+	"data": data			
+});
+
 </script>
 </body>
 </html>

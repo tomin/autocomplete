@@ -55,32 +55,33 @@ Element.prototype.toggleClass = function (className) {
 	}
 };
 
-// Wrap an HTMLElement around each element in an HTMLElement array.
-HTMLElement.prototype.wrap = function(elms) {
-    // Convert `elms` to an array, if necessary.
-    if (!elms.length) elms = [elms];
+function wrap(wrapper, wrappee) {
+	var parent = wrappee.parentNode,
+		sibling = wrappee.nextSibling;
+	
+	wrapper.appendChild(wrappee);
+	
+	if (sibling) {
+		parent.insertBefore(wrapper, sibling);
+	} else {
+		parent.appendChild(wrapper);
+	}
+} 
 
-    // Loops backwards to prevent having to clone the wrapper on the
-    // first element (see `child` below).
-    for (var i = elms.length - 1; i >= 0; i--) {
-        var child = (i > 0) ? this.cloneNode(true) : this;
-        var el    = elms[i];
+//IE7 support for querySelectorAll. http://www.codecouch.com/2012/05/adding-document-queryselectorall-support-to-ie-7/
+(function(d,s){if(!document.querySelectorAll){d=document,s=d.createStyleSheet();d.querySelectorAll=function(r,c,i,j,a){a=d.all,c=[],r=r.replace(/\[for\b/gi,'[htmlFor').split(',');for(i=r.length;i--;){s.addRule(r[i],'k:v');for(j=a.length;j--;)a[j].currentStyle.k&&c.push(a[j]);s.removeRule(0)}return c}}})();
 
-        // Cache the current parent and sibling.
-        var parent  = el.parentNode;
-        var sibling = el.nextSibling;
+function each(obj, fn) {
+	if (obj.length) for (var i = 0, ol = obj.length, v = obj[0]; i < ol && fn(v, i) !== false; v = obj[++i]);
+	else for (var p in obj) if (fn(obj[p], p) === false) break;
+};	
 
-        // Wrap the element (is automatically removed from its current
-        // parent).
-        child.appendChild(el);
+var addEvent = (document.addEventListener) ? 
+	function(elem, type, listener) { elem.addEventListener(type, listener, false); } : 
+	function(elem, type, listener) { elem.attachEvent("on" + type, listener); };
 
-        // If the element had a sibling, insert the wrapper before
-        // the sibling to maintain the HTML structure; otherwise, just
-        // append it to the parent.
-        if (sibling) {
-            parent.insertBefore(child, sibling);
-        } else {
-            parent.appendChild(child);
-        }
-    }
-};
+if(!String.prototype.trim){//avoid IE9 existing trim  
+	String.prototype.trim = function(){  
+		return this.replace(/^\s+|\s+$/g,'');  
+	};  
+}
