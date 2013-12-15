@@ -19,7 +19,10 @@
 			highlight: true,
 			caseSensitive: false,
 			wrapClassName: "acwrap"
-		};	
+		};
+		this.selectedIndex = -1;
+		this.arrowflag = true;
+		this.lastKeyword;
 	
 		if (options) {
 			for (option in this.options) {				
@@ -44,10 +47,57 @@
 			
 			var results= document.createElement("ul");
 			results.className = "results hidden";
+			results.style.width = input.width;
 			wrapper.appendChild(results);
 			
 			current.register.call(current, input, results);
 		});	
+	}
+	
+	/* 
+	 * Manipulate logic when keycode is arrow key
+	 * 
+	 * @param keycode int keycode	 
+	 * @param li      DOM the single autocomplete result container
+	 * @param input   DOM the input DOM that has autocomplete
+	 */
+	Autocomplete.prototype.arrowpress = function(keycode, li, input) {
+		var current = this,
+			lilength = li.length,
+			selectVal;			
+
+		//reset anyhow
+		for (var i=0; i<lilength; i++) {
+			li[i].removeClass("selected");
+		}
+
+		if (lilength > current.selectedIndex && lilength > 0) {// && current.options['maxChoices'] >= current.selectedIndex) {
+			if (keycode == 40) {//down
+				current.selectedIndex++;
+				
+				if (lilength == current.selectedIndex) {
+					current.selectedIndex = 0;
+				} 
+			} else if (keycode == 38) {//up
+				current.selectedIndex--;
+				if (current.selectedIndex == -1) {
+					current.selectedIndex = lilength-1;
+				}						
+			}
+
+			if (keycode == 40 || keycode == 38) {//common behavior
+				selectVal = li[current.selectedIndex].getAttribute("rel");
+				li[current.selectedIndex].addClass("selected");				
+				input.value = selectVal;
+				current.arrowflag = false;	
+				current.lastKeyword = selectVal;
+			}
+		}
+		
+		if (current.lastKeyword != selectVal) {
+			current.selectedIndex = -1;//reset
+			current.arrowflag = true;
+		}			
 	}
 	
 	/* 
@@ -57,20 +107,26 @@
 	 * @param results DOM the DOM for autocomplete results
 	 */
 	Autocomplete.prototype.register = function(input, results) {
-		var current = this;
+		var current = this;		
 
 		addEvent(input, 'keyup', function(event){
 			var event = event || window.event,
 				keycode = event.charCode || event.keyCode,
 				text = input.value,
-				foundArr = current.getHavingDataArray(current.options['data'], text);
+				foundArr = current.getHavingDataArray(current.options['data'], text),
+				foundLength = foundArr.length;
 			
 			// ignore if the following keys are pressed: [shift] [ctrl] [alt] [capslock]
 			if (keycode > 8 && keycode < 32) {
 				return;
 			}
 			
-			if (text.trim().length == 0 || foundArr.length == 0) {
+			current.arrowpress(keycode, results.getElementsByTagName("li"), input);
+			if (!current.arrowflag) {
+				return;
+			}
+			
+			if (text.trim().length == 0 || foundLength == 0) {
 				results.addClass('hidden')
 				return;
 			}
@@ -83,21 +139,25 @@
 		
 				addEvent(li, 'mousedown', function(event){
 					input.value = foundArr[i];
-					//input.value = x;
+					//input.value = 'x';
 				});
-				
+		
+				li.setAttribute("rel", foundArr[i]);
 				li.appendChild(textNode);				
 				frag.appendChild(li);
+				
+				
+				current.highlight(text, li, foundArr);
 				if (i+1 == current.options['maxChoices']) break;
 			};
 			results.innerHTML = "";//reset
 			results.appendChild(frag);
 			results.removeClass('hidden');
 			
-			current.highlight(text, results, foundArr);
 		});
 		
 		addEvent(input, 'blur', function(event){
+			this.flag =true;
 			results.addClass('hidden');
 		});
 	}	
