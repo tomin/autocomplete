@@ -7,9 +7,14 @@
 (function(window, document, undefined) {
 	
 	
+	/** 
+	 * Constructor
+	 * 
+	 * @param options user options, to overwrite default options
+	 */	
 	var Autocomplete = function(options){
 
-		/*
+		/**
 		 * default options
 		 */	
 		this.options = {
@@ -34,6 +39,9 @@
 		this.init();		
 	};	
 	
+	/** 
+	 * Init, setup necessary DOM
+	 */		
 	Autocomplete.prototype.init = function() {
 		var current = this;
 		var dataArr = current.options['data'];
@@ -54,7 +62,7 @@
 		});	
 	}
 	
-	/* 
+	/** 
 	 * Manipulate logic when keycode is arrow key
 	 * 
 	 * @param keycode int keycode	 
@@ -100,7 +108,7 @@
 		}			
 	}
 	
-	/* 
+	/** 
 	 * Register/Bind events
 	 * 
 	 * @param input   DOM the input DOM that has autocomplete	  	 
@@ -136,40 +144,40 @@
 			for (var i=0, length=foundArr.length; i<length; i++) {				
 				var li= document.createElement("li"),						
 					textNode = document.createTextNode(foundArr[i]);
-		
-				addEvent(li, 'mousedown', function(event){
-					input.value = foundArr[i];
-					//input.value = 'x';
-				});
-		
+				
 				li.setAttribute("rel", foundArr[i]);
 				li.appendChild(textNode);				
 				frag.appendChild(li);
-				
-				
+
 				current.highlight(text, li, foundArr);
+				
 				if (i+1 == current.options['maxChoices']) break;
 			};
 			results.innerHTML = "";//reset
 			results.appendChild(frag);
 			results.removeClass('hidden');
-			
 		});
 		
 		addEvent(input, 'blur', function(event){
-			this.flag =true;
+			this.flag = true;
 			results.addClass('hidden');
 		});
-	}	
+				
+		//delegate li event to results
+		addEvent(results, 'mousedown', function(event){
+			var target = getEventTarget(event);
+			input.value = target.getAttribute("rel");				
+		});	
+	}
 	
-	/* 
+	/** 
 	 * highlight exact match
 	 * 
 	 * @param text 	   string target replace string
-	 * @param results  DOM    target DOM to be replaced
+	 * @param li 	   DOM    target DOM to be replaced
 	 * @param foundArr array  found array containing the keyword
 	 */
-	Autocomplete.prototype.highlight = function(text, results, foundArr) {		
+	Autocomplete.prototype.highlight = function(text, li, foundArr) {		
 		if (this.options['highlight'] === false) {
 			return false;
 		}
@@ -178,7 +186,7 @@
 			var re = new RegExp(text);
 			for (var i=0, length=foundArr.length; i<length; i++) {
 				var newVal = foundArr[i].replace(re, "<span class='found'>" + text + "</span>");				
-				results.innerHTML = results.innerHTML.replace(foundArr[i], newVal);
+				li.innerHTML = li.innerHTML.replace(foundArr[i], newVal);
 			}	
 			
 		} else {
@@ -187,11 +195,19 @@
 			for (var i=0, length=foundArr.length; i<length; i++) {
 				var matched = foundArr[i].match(re);
 				var newVal = foundArr[i].replace(re, "<span class='found'>" + matched[0] + "</span>");				
-				results.innerHTML = results.innerHTML.replace(foundArr[i], newVal);
+				li.innerHTML = li.innerHTML.replace(foundArr[i], newVal);
 			}
 		}
 	};	
 	
+	/** 
+	 * Get a filtered array from an origin array,
+	 * which contains specific value in its value
+	 * 
+	 * @param array    array  origin array to be filtered
+	 * @param inputStr string 	   DOM    target DOM to be replaced
+	 * @param foundArr array  found array containing the keyword
+	 */	
 	Autocomplete.prototype.getHavingDataArray = function(array, inputStr) {
 		var newarr = [],
 			i = array.length;

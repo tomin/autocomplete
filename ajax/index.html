@@ -10,11 +10,19 @@
     <div id="container">
         <div id="query">          
 			<form name="f" method="post" action="">
-			PTT Board Search: 			
-				<input id="keyword" name="keyword" type="text" value="" placeholder="Key a board name" autofocus="autofocus" />
+				<span class="query_desc">PTT Hot Board:</span>
+				<input id="keyword" name="keyword" type="text" value="" placeholder="Key-in a board name" autofocus="autofocus" />
 				<input id="submit" type="submit" value="Get" />				
 			</form>
         </div>
+		
+        <div id="query2"> 
+			<form name="f2" method="post" action="">
+				<span class="query_desc">Browser Name:</span>		
+				<input id="browser" name="browser" type="text" value="" placeholder="Key-in a browser name" />
+				<input id="submit" type="submit" value="Get" />				
+			</form>
+        </div>		
     </div>
 	
 <script type="text/javascript" src="ajax.js"></script>
@@ -22,28 +30,25 @@
 <script type="text/javascript" src="autocomplete.js"></script>
 <script type="text/javascript">
 //combined version
-/*
 new Ajax({
 	"url": "./hotboard.json",
 	"type": "get",
 	"dataType": "json",
 	"success": function(data) {
 		new Autocomplete({
-			"element": "input[type=text]",
+			"element": "input[name=keyword]",
 			"data": data			
 		});		
 	}
 });
-*/
+
 
 //standalone version
-
-var data = ["Actuary", "Ajax", "Aquarium", "ask", "BabyMother", "Beauty", "BeautyBody", "BeautySalon", "BigBanciao", "biker", "BLEACH", "Brit-pop", "BuyTogether", "C_Chat", "car", "cat", "CFantasy", "Chiayi", "ChungLi", "ComeHere", "cookclub", "creditcard", "CVS", "DC", "DIABLO", "DSLR", "EatToDie", "Elephants", "ELSWORD", "e-shopping", "Examination", "EZsoft", "Facebook", "FITNESS", "Food", "GetMarry", "Gossiping", "graduate", "hairdo", "HardwareSale", "Headphone", "HelpBuy", "home-sale", "HomeTeach", "Hsinchu", "Huaoptionen", "iPhone", "iPod", "Japan_Travel", "Japandrama", "job", "joke", "Kaohsiung", "KoreaDrama", "Lakers", "Lifeismoney", "Lions", "Little-Games", "LoL", "lyrics", "Mabinogi", "MakeUp", "MapleStory", "marvel", "Mix_Match", "MJ", "MLB", "MobileComm", "mobilesales", "movie", "NARUTO", "NBA", "NBA_Film", "nb-shopping", "NTU", "NTUcourse", "NY-Yankees", "ONE_PIECE", "Option", "part-time", "PC_Shopping", "PlayStation", "PokeMon", "RO", "Salary", "Scorpio", "SD-GundamOL", "SET", "ShuangHe", "SMSoptionfe", "SNSD", "Soft_Job", "Songs", "SportLottery", "StarCraft", "stationery", "Stock", "studyabroad", "StupidClown", "SuperJunior", "TaichungBun", "Tainan", "TaiwanDrama", "Tech_Job", "TKU_Talk", "TY_Research", "Wanted", "WarCraft", "Web_Design", "WOW", "Zastrology"];
+var data = ["Firefox", "Google Chrome", "Safari", "Opera", "Internet Explorer"];
 new Autocomplete({
-	"element": "input[type=text]",
+	"element": "#browser",
 	"data": data			
 });
-
 </script>
 </body>
 </html>

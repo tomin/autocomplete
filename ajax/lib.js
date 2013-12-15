@@ -66,6 +66,11 @@ function wrap(wrapper, wrappee) {
 	} else {
 		parent.appendChild(wrapper);
 	}
+}
+
+function getEventTarget(e) {
+	e = e || window.event;
+	return e.target || e.srcElement;
 } 
 
 //IE7 support for querySelectorAll. http://www.codecouch.com/2012/05/adding-document-queryselectorall-support-to-ie-7/

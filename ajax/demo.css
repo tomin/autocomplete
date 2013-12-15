@@ -1,16 +1,22 @@
 body{
 margin: 0;
-min-height:550px;
+min-height: 550px;
 }
-#keyword{
-margin:0;
+#keyword, #browser{
+margin: 0;
 width: 22em;
 }
 #container{
 margin: 2em auto;
 padding: 0;
-width: 800px;
+width: 600px;
 }
 .center{
 text-align: center;
+}
+.query_desc{
+float:left;
+}
+#query2{
+margin-top: 10em;
 }

@@ -7,10 +7,11 @@
 ////////////////////////////////////
 (function(window, document, undefined) {
 
-	/*
+	/**
 	 * default options
 	 * FIXME: Consider putting options in Ajax object,
-	 * Current issue is we need "this" as Ajax rather than req in callback fn
+	 * Current issue is we need "this" as Ajax rather than req in callback fn.
+	 * and we can't use call/apply because it make onreadystate not change
 	 */
 	var params = {
 			url : "", 
@@ -20,7 +21,12 @@
 			success: function(data){},
 			error: function(){msg}
 		};	
-	
+
+	/** 
+	 * Constructor
+	 * 
+	 * @param options user options, to overwrite default options
+	 */			
 	var Ajax = function(options){		
 		if (options) {
 			for (option in params) {				
@@ -38,6 +44,11 @@
 		}
 	};	
 
+	/** 
+	 * Create a XMLHttpRequest
+	 *
+	 * @return XMLHttpRequest	 
+	 */		
 	Ajax.prototype.createRequest = function() {
 		var request = null;
 
@@ -60,7 +71,12 @@
 			return request;
 		}
 	}
-	
+
+	/** 
+	 * Ajax callback fn 
+	 *
+	 * @return mixed	 
+	 */	
 	Ajax.prototype.callback = function() {			
 		var req = this;
 
@@ -81,12 +97,22 @@
 		}
 	}
 
+	/** 
+	 * HTTP Get request
+	 *
+	 * @return void	 
+	 */		
 	Ajax.prototype.sendAjaxGETRequest = function() {
 		this.req.onreadystatechange = this.callback;
 		this.req.open("GET", params['url'], true);
 		this.req.send(null);
 	}
-	
+
+	/** 
+	 * HTTP Post request
+	 *
+	 * @return void	 	 
+	 */	
 	Ajax.prototype.sendAjaxPOSTRequest = function() {
 		this.req.onreadystatechange = this.callback;
 		this.req.open("POST", params['url'], true);
@@ -94,8 +120,8 @@
 		this.req.send(params['data']);
 	}
 	
-	/* 
-	 * get data according to its dataType
+	/** 
+	 * Get data according to its dataType
 	 *
 	 * @param req XMLHttpRequest
 	 * @return mixed
@@ -118,7 +144,7 @@
 		}
 	};
 	
-	/* 
+	/** 
 	 * simple local test
 	 */
 	function isLocal(){
