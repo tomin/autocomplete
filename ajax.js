@@ -6,6 +6,7 @@
 //
 ////////////////////////////////////
 (function(window, document, undefined) {
+	"use strict";
 
 	/**
 	 * default options
@@ -31,7 +32,7 @@
 	 */			
 	var Ajax = function(options){		
 		if (options) {
-			for (option in params) {				
+			for (var option in params) {				
 				if (Object.prototype.hasOwnProperty.call(params, option) && options[option] !== undefined) {
 					//TODO: consider encodeURIComponent for security concern
 					params[option] = options[option];
@@ -174,7 +175,7 @@
 	 * @param req XMLHttpRequest
 	 * @return mixed
 	 */
-	function getData(req) {
+	function getData(req) {	
 		switch (params['dataType']) {
 			case "text":
 				return req.responseText;
@@ -236,5 +237,3 @@
 	window.Ajax = Ajax;	
 	
 })(this, this.document);
-
-			

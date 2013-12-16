@@ -1,13 +1,11 @@
 autocomplete
 ============
+native javascript ajax and autocomplete plugin
 
-javascript autocomplete samples
-
-ajax: A native js autocomplete plugin that could get external data
 
 Demo link
 ===========
-[goo.gl/Sw7dDq](goo.gl/Sw7dDq)
+[http://goo.gl/Sw7dDq](http://goo.gl/Sw7dDq)
 
 
 HOW TO USE
@@ -15,7 +13,6 @@ HOW TO USE
 ```html
 <link rel="stylesheet" href="css/template.css">
 <script type="text/javascript" src="ajax.js"></script>
-<script type="text/javascript" src="lib.js"></script>
 <script type="text/javascript" src="autocomplete.js"></script>
 <script>
 new Ajax({
@@ -32,11 +29,15 @@ new Ajax({
 </script>
 ```
 
-Dependency
+Feature
 ===========
-autocomplete.js depends on lib.js
-
 Both Ajax and Autocomplete could work standalone
+
+Lightweight (but reinventing the wheel, lol)
+
+Easy to customize with options
+
+Flexiable to extend
 
 
 Browser Tested
@@ -45,7 +46,7 @@ Firefox
 
 Google Chrome
 
-IE7-10 (IE7 is not guaranteed, lol)
+IE7-10 
 
 
 CSS Customize
@@ -83,3 +84,7 @@ highlight: true,
 caseSensitive: false,
 wrapClassName: "acwrap"
 ```
+
+FYI
+===========
+For HTML5 datalist autocomplete polyfill, see [https://github.com/tomin/datalist](https://github.com/tomin/datalist)

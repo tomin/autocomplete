@@ -3,18 +3,18 @@
 <head>
 <title>Autocomplete with Ajax sample</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<link rel="stylesheet" href="demo.css">
 <link rel="stylesheet" href="css/template.css">
+<link rel="stylesheet" href="demo/demo.css">
 </head>
 <body>
     <div id="container">
+		<h1>Autocomplete with Ajax sample</h1>
         <div id="query">          
 			<form name="f" method="post" action="">
 				<span class="query_desc">PTT Hot Board:</span>
 				<input id="keyword" name="keyword" type="text" value="" placeholder="Key-in a board name" autofocus="autofocus" />
 				<input id="submit" type="submit" value="Get" />				
 			</form>
-
         </div>
 		
         <div id="query2"> 
@@ -27,11 +27,10 @@
     </div>
 	
 <script type="text/javascript" src="ajax.js"></script>
-<script type="text/javascript" src="lib.js"></script>
 <script type="text/javascript" src="autocomplete.js"></script>
 <script type="text/javascript">
 //combined version
-var url = document.location.href.replace(/(.+)\/(.+)/g, "$1/hotboard.jsonp");
+var url = document.location.href.replace(/(.+)\/(.+)/g, "$1/demo/hotboard.jsonp");
 new Ajax({
 	"url": url, 
 	"type": "get",
