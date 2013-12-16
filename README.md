@@ -8,6 +8,7 @@ ajax: A native js autocomplete plugin that could get external data
 HOW TO USE
 ===========
 ```html
+<link rel="stylesheet" href="css/template.css">
 <script type="text/javascript" src="ajax.js"></script>
 <script type="text/javascript" src="lib.js"></script>
 <script type="text/javascript" src="autocomplete.js"></script>
@@ -30,11 +31,48 @@ Dependency
 ===========
 autocomplete.js depends on lib.js
 
+Both Ajax and Autocomplete could work standalone
 
-Other samples
+
+Browser Tested
 ===========
-html5-datalist-simple: A native js version porting from jQuery datalist [https://github.com/miketaylr/jquery.datalist.js](https://github.com/miketaylr/jquery.datalist.js)
+Firefox 
+Google Chrome
+IE7-10 (IE7 is not guaranteed, lol)
 
-html5-datalist-complex: A minor modified version from [https://github.com/mmurph211/Autocomplete](https://github.com/mmurph211/Autocomplete)
 
-flickrinstant: My previous work in 2010, flickr search integrated with google autocomplete  
+CSS Customize
+===========
+Open template.css and modify the "acwrap" related CSS
+
+Set the className to yours if needed
+
+```html
+new Autocomplete = {
+	wrapClassName: "acwrap"
+};
+```
+
+Ajax Options
+===========
+```html
+url : "", 
+type: "get",
+data: "",
+dataType: "text",
+success: function(data){},
+error: function(msg){},
+crossDomain: false,
+jsonCallbackName: 'jsoncallback'
+```
+
+Autocomplete Options
+===========
+```html
+element : "input[list]", 		
+data: [],
+maxChoices: 7,
+highlight: true,
+caseSensitive: false,
+wrapClassName: "acwrap"
+```
