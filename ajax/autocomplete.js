@@ -76,7 +76,7 @@
 
 		//reset anyhow
 		for (var i=0; i<lilength; i++) {
-			li[i].removeClass("selected");
+			removeClass(li[i], "selected");
 		}
 
 		if (lilength > current.selectedIndex && lilength > 0) {// && current.options['maxChoices'] >= current.selectedIndex) {
@@ -95,7 +95,7 @@
 
 			if (keycode == 40 || keycode == 38) {//common behavior
 				selectVal = li[current.selectedIndex].getAttribute("rel");
-				li[current.selectedIndex].addClass("selected");				
+				addClass(li[current.selectedIndex], "selected");				
 				input.value = selectVal;
 				current.arrowflag = false;	
 				current.lastKeyword = selectVal;
@@ -135,7 +135,7 @@
 			}
 			
 			if (text.trim().length == 0 || foundLength == 0) {
-				results.addClass('hidden')
+				addClass(results, 'hidden')
 				return;
 			}
 			var frag = document.createDocumentFragment();
@@ -155,12 +155,12 @@
 			};
 			results.innerHTML = "";//reset
 			results.appendChild(frag);
-			results.removeClass('hidden');
+			removeClass(results, 'hidden');
 		});
 		
 		addEvent(input, 'blur', function(event){
 			this.flag = true;
-			results.addClass('hidden');
+			addClass(results, 'hidden');
 		});
 				
 		//delegate li event to results
@@ -213,8 +213,9 @@
 			i = array.length;
 
 		while (i--) {
-			var sourceStr = array[i];
-			if (this.options['caseSensitive'] === false) {
+			var sourceStr = array[i];			
+			
+			if (this.options['caseSensitive'] === false) {				
 				sourceStr = array[i].toLowerCase();
 				inputStr = inputStr.toLowerCase();
 			}			

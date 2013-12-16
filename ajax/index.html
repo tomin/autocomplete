@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Autocomplete with Ajax sample</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <link rel="stylesheet" href="demo.css">
 <link rel="stylesheet" href="css/template.css">
 </head>
@@ -30,10 +30,11 @@
 <script type="text/javascript" src="autocomplete.js"></script>
 <script type="text/javascript">
 //combined version
+var url = document.location.href.replace(/(.+)\/(.+)/g, "$1/hotboard.jsonp");
 new Ajax({
-	"url": "./hotboard.json",
+	"url": url, 
 	"type": "get",
-	"dataType": "json",
+	"dataType": "jsonp",
 	"success": function(data) {
 		new Autocomplete({
 			"element": "input[name=keyword]",
