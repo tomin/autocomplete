@@ -5,6 +5,11 @@ javascript autocomplete samples
 
 ajax: A native js autocomplete plugin that could get external data
 
+Demo link
+===========
+[goo.gl/Sw7dDq](goo.gl/Sw7dDq)
+
+
 HOW TO USE
 ===========
 ```html
@@ -37,7 +42,9 @@ Both Ajax and Autocomplete could work standalone
 Browser Tested
 ===========
 Firefox 
+
 Google Chrome
+
 IE7-10 (IE7 is not guaranteed, lol)
 
 
