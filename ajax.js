@@ -22,6 +22,7 @@
 			success: function(data){},
 			error: function(msg){},
 			crossDomain: false,
+	        urlAppendCallback: true,
 			jsonCallbackName: 'jsoncallback'
 		};
 
@@ -148,6 +149,10 @@
 			var delimeter = (params['url'].indexOf("?") !== -1) ? '&' : '?';			
 			script.src = params['url'] + delimeter + params['jsonCallbackName'] + "=" + uniqueCallback;		
 		}
+		
+        if (!params['urlAppendCallback']) {
+            script.src = params['url'];
+        }
 
 		//expose, required for server side script
 		window[uniqueCallback] = function (json) {

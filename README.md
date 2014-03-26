@@ -71,6 +71,7 @@ dataType: "text",
 success: function(data){},
 error: function(msg){},
 crossDomain: false,
+urlAppendCallback: true,
 jsonCallbackName: 'jsoncallback'
 ```
 
