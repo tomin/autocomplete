@@ -5,7 +5,7 @@ native javascript ajax and autocomplete plugin
 
 Demo link
 ===========
-[http://goo.gl/Sw7dDq](http://goo.gl/Sw7dDq)
+[http://goo.gl/r1BXjb](http://goo.gl/r1BXjb)
 
 
 HOW TO USE
@@ -16,7 +16,7 @@ HOW TO USE
 <script type="text/javascript" src="autocomplete.js"></script>
 <script>
 new Ajax({
-	"url": "./hotboard.json",
+	"url": "hotboard.json",
 	"type": "get",
 	"dataType": "json",
 	"success": function(data) {
@@ -67,7 +67,7 @@ Ajax Options
 url : "", 
 type: "get",
 data: "",
-dataType: "text",
+dataType: "text", //json, jsonp, xml
 success: function(data){},
 error: function(msg){},
 crossDomain: false,
