@@ -86,6 +86,11 @@ caseSensitive: false,
 wrapClassName: "acwrap"
 ```
 
+Change log
+===========
+Apr. 14, 2014  Add absolute path detection, add min files 
+
+
 FYI
 ===========
 For HTML5 datalist autocomplete polyfill, see [https://github.com/tomin/datalist](https://github.com/tomin/datalist)

@@ -2,7 +2,7 @@
 //
 // Ajax Plugin based on Head First Ajax
 // http://www.headfirstlabs.com/books/hfajax/
-// MIT-style license. Copyright 2013 tomin
+// MIT-style license. Copyright 2013-2014 tomin
 //
 ////////////////////////////////////
 (function(window, document, undefined) {
@@ -35,7 +35,6 @@
 		if (options) {
 			for (var option in params) {				
 				if (Object.prototype.hasOwnProperty.call(params, option) && options[option] !== undefined) {
-					//TODO: consider encodeURIComponent for security concern
 					params[option] = options[option];
 				}				
 			}
@@ -213,6 +212,14 @@
 		return (document.location.protocol.match(/^https?/) === null);
 	}
 
+    /**
+     * determine if the url is absolute (otherwise it's relative path)
+     * http://stackoverflow.com/questions/10687099/how-to-test-if-a-url-string-is-absolute-or-relative
+     */
+    function isAbsolutePath(url){
+        return /^(?:[a-z]+:)?\/\//i.test(url);
+    }
+
 	/** 
 	 * simple cross domain test
 	 */
@@ -224,6 +231,11 @@
 		if (href.indexOf("file:") !== -1) {
 			return true;
 		}
+
+        // if it's relative path, assume it is the same domain
+        if (!isAbsolutePath(url)) {
+            return false;
+        }
 		
 		//remove protocol if any
 		var re = /https?\/\//,
