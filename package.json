@@ -1,0 +1,8 @@
+{
+  "name": "grunt-build",
+  "description": "A grunt builder",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-qunit": "^0.7.0"
+  }
+}
