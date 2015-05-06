@@ -1,3 +1,12 @@
+language: php
+
+php:
+- 5.3
+- 5.4
+
+before_install:
+- npm install -g grunt-cli
+
 before_script:
   - sudo npm install -g grunt
 
