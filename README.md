@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tomin/autocomplete.svg?branch=master)](https://travis-ci.org/tomin/autocomplete)
+
 autocomplete
 ============
 native javascript ajax and autocomplete plugin
