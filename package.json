@@ -3,6 +3,7 @@
   "description": "A grunt builder",
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-qunit": "^0.7.0"
+    "grunt-contrib-qunit": "^0.7.0",
+    "grunt-contrib-uglify": "latest"
   }
 }

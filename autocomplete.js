@@ -40,7 +40,7 @@
 				}				
 			}
 		}
-		this.init();		
+		this.init();
 	};	
 	
 	/** 
@@ -48,8 +48,11 @@
 	 */		
 	Autocomplete.prototype.init = function() {
 		var current = this,
-			dataArr = current.options['data'],
-			inputs = document.querySelectorAll(this.options['element']);		
+			inputs = document.querySelectorAll(this.options['element']);
+
+        if (inputs.length === 0) {
+            return;
+        }
 
 		each(inputs, function(input, i) {
 			//wrap input and create DOM for data display
@@ -283,7 +286,7 @@
 	function each(obj, fn) {
 		if (obj.length) for (var i = 0, ol = obj.length, v = obj[0]; i < ol && fn(v, i) !== false; v = obj[++i]);
 		else for (var p in obj) if (fn(obj[p], p) === false) break;
-	};	
+	}
 
 	function addEvent(elem, type, listener) { 
 		return document.addEventListener? 

@@ -7,6 +7,6 @@ QUnit.test( "lib init", function( assert ) {
 });
 
 QUnit.test( "declare init", function( assert ) {
-    var obj = new Ajax();
+    var obj = new Autocomplete();
     assert.ok(typeof(obj) === "object", "Passed!" );
 });
